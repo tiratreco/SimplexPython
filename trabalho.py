@@ -1,7 +1,7 @@
 
 def lerMatriz():
     restricao = []
-    with open('/home/gustavo/Projetos/TrabalhoPL/dados.txt', 'r') as arquivo:
+    with open('dados.txt', 'r') as arquivo:
         objetivo = arquivo.readline()
         for linha in arquivo.readlines():
             restricao.append(linha.split(' '))
@@ -18,6 +18,8 @@ def listaVariaveis(restricao):
 
 def formaPadrao(objetivo, restricao):
     numVariaveis = len(listaVariaveis(restricao))
+
+    #variavel de folga ou de excesso
     padrao = []
     for r in restricao[:-1]:
         linha = []
@@ -35,8 +37,26 @@ def formaPadrao(objetivo, restricao):
             else:
                 linha.append(e)
         padrao.append(linha)
-    linha = []
 
+    for r in padrao:
+        for e in range(len(r)-1):
+            if r[e] == '=' and r[e+1] == '-':
+                #multiplicar restricao por -1
+                if r[0]=='-':
+                    del(r[0])
+                else:
+                    r.insert(0, '-')
+                el = 1
+                while el < len(r):
+                    if r[el]=='-':
+                        r[el]='+'
+                    elif r[el]=='+':
+                        r[el]='-'
+                    el+=1
+        if r[-2] == '+': del(r[-2])
+        
+    #restrição de negatividade
+    linha = []
     for v in listaVariaveis(padrao)[:-1]:
         linha.append(v)
         linha.append(',')
@@ -44,10 +64,11 @@ def formaPadrao(objetivo, restricao):
     linha.append('>=')
     linha.append('0')
     padrao.append(linha)
+
     return padrao
             
 def escreverSaida(objetivo, padrao):
-    with open('/home/gustavo/Projetos/TrabalhoPL/saida.txt', 'w') as arquivo:
+    with open('saida.txt', 'w') as arquivo:
         arquivo.write(objetivo)
         for linha in padrao:
             for e in linha:
@@ -61,9 +82,9 @@ objetivo, restricao = lerMatriz()
 padrao = formaPadrao(objetivo, restricao)
 
 
-print(objetivo)
-print(restricao)
+#print(objetivo)
+#print(restricao)
 
-print(padrao)
+#print(padrao)
 
 escreverSaida(objetivo, padrao)
