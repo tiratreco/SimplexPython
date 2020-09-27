@@ -16,15 +16,26 @@ def lerMatriz():
 
 
 def imprimirTableau(tableau, tipo):
-    print('Tableau')
-    print('-' * len(tableau[0])*3)
+    print('Tableau\n\n')
     maiores = [0]*len(tableau[0])
     for c in range(len(tableau[0])):
         maior = 2
         for l in range(len(tableau)):
             if len(str(int(tableau[l][c])))>maior: maior = len(str(int(tableau[l][c])))
             maiores[c]=maior
+    
+    print('base  |', end = '')
+    for c in range(len(tableau[0])):
+        if c==len(tableau[0])-1:print(' '+(' '*maiores[c])+'b', end='')
+        else:print(' '+(' '*maiores[c])+'x'+str(c+1)+'  |', end='')
+    
+    print('\n------', end='')
+    for c in range(len(tableau[0])):
+        print('-'*(6+maiores[c]), end='')
+    print()
+    
     for l in range(len(tableau)):
+        print('    ', end='')
         for n in range(len(tableau[0])):
             aux = len(str(int(tableau[l][n])))
             print('  | ', end ='')
