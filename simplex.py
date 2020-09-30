@@ -151,7 +151,8 @@ def acharBases(tableau):
     return base
 
 while True:
-    entrada = input('Entre com um arquivo: ')
+    entrada = input('Entre com um arquivo (vazio:sair): ')
+    if entrada=='': break
     try: 
         tableau, tipo = lerMatriz(entrada)
         erro=False
