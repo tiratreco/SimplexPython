@@ -68,7 +68,7 @@ def novaBase(tableau, tipo):
                 aux2=n
         if aux==0: return None
         return aux2
-    for n in range(len(tableau[-1])):
+    for n in range(len(tableau[-1])-1):
         if tableau[-1][n]<aux:
             aux=tableau[-1][n]
             aux2=n
@@ -100,6 +100,14 @@ def escalonar(tableau, entra, sai):
 
 def simplex(tableau, tipo):
     base = acharBases(tableau)
+    if (not len(base)==len(tableau)-1):
+        print('Não foi encontrada uma base inicial para o problema.')
+        return
+    for l in tableau: 
+        for n in range(len(l[:-1])):
+            if l[-1] < 0:
+                print('O problema não está na forma padrão.')
+                return
     print('\nBase inicial: ', end='')
     print(base)
     imprimirTableau(tableau, tipo, base)
@@ -125,7 +133,7 @@ def acharBases(tableau):
     for c in range(len(tableau[0])-1):
         aux = 0
         aux2 = 0
-        for l in range(len(tableau[:-1])):
+        for l in range(len(tableau)-1):
             if not tableau[l][c]==0 and not tableau[l][c]==1:
                 aux=-1
             elif tableau[l][c]==1 and not aux==-1:
@@ -134,7 +142,8 @@ def acharBases(tableau):
         if aux==1:
             bases.append('x'+str(aux2+1))
     base=[]
-    for l in range(len(tableau)):
+    print(bases)
+    for l in range(len(tableau)-1):
         for n in range(len(tableau[0])):
             for b in range(len(bases)):
                 if tableau[l][n]==1 and ('x'+str(n+1) in bases[b]):
@@ -150,4 +159,6 @@ while True:
         print('Erro de leitura do arquivo!')
         erro=True
     if not erro:
+        print(tableau)
+        print(tipo)
         simplex(tableau, tipo)
