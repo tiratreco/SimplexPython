@@ -159,6 +159,4 @@ while True:
         print('Erro de leitura do arquivo!')
         erro=True
     if not erro:
-        print(tableau)
-        print(tipo)
         simplex(tableau, tipo)
